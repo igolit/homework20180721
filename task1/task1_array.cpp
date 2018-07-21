@@ -48,35 +48,22 @@ int longest_sequence(int arr[], int size) {
 		prev_counter = current_sequence_counter; 
 	} // end if >=
 
-	//test 
-    cout << "Sequence counter (prev_counter) is: " <<  prev_counter << "\n" 
-         << "Sequence number (prev_number) is: " << prev_number << "\n\n"; 
-
 	return prev_number; 
 }
 
 int main()
 {
-	const int size = 22; // array size
+	const int size = 19; // array size
 
 	// an int array with size elements.
-	int static_array [] = {1,5,5,5,6,6,7,7,7,7,7,7,7,7,5,5,5,5,5,5,5,5}; 
-
-	// test 
-	cout << "Size: " << size << "\tArray: ";
-	for (int i=0; i<=size-1;i++)
-		cout << static_array[i] << " ";
-	cout << endl;
+	int static_array [] = {1,5,5,5,6,6,7,7,7,7,7,7,7,7,5,5,5,5,5}; 
 
 	int recurring_seque; // longest recurring sequence number
 
 		recurring_seque = longest_sequence(static_array, size);  // call function 
 
-	/* // output result
-	cout << "Longest recurring sequence is " << recurring_seque; */
-
-	//test 
-    cout << "Longest recurring sequence (recurring_seque) is: " << recurring_seque;
+	// output result
+	cout << "Longest recurring sequence is " << recurring_seque; 
 
 	cout << endl << endl; 
 	return 0;
