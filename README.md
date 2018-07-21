@@ -5,7 +5,7 @@ Task-1-
 Longest recurring sequence. With extra point - one loop.
 
 Task-2- 
-Drawing a triangle.
+Drawing a triangle in ASCII graphics.
 
 Task-3- 
 Balanced () and [] and {}. 
