@@ -24,18 +24,20 @@ int main()
 		cout << "\nIncorrect number!!!\n\n";
 		cout << "Input a triangle base's length (positive number): ";
 		cin >> base_length;
-	} 
+	}   // end while <= 
 
-	// stars and spaces quantity in first line
-	if (base_length % 2 == 1) {   // odd number 
-		count = 1;
-		space = base_length / 2;
-	}
-	else {   // even number
-		count = 2;
-		space =	base_length / 2 - 1;
-	} 
-	
+
+		// stars and spaces quantity in first line
+		if (base_length % 2 == 1) {   // odd number 
+			count = 1;
+			space = base_length / 2;
+		}   // end if ==
+		else {   // even number
+			count = 2;
+			space =	base_length / 2 - 1;
+		}   // end else of if ==
+		
+		
 	// drawing triangle	
 	while (count <= base_length) {
 		for (space_count = 1; space_count <= space; space_count++)   // drawed spaces
@@ -43,12 +45,12 @@ int main()
 		for (star_count = 1; star_count <= count; star_count++)   // drawed stars
 			cout << "*";
 
-		// new triangle line
+		// new triangle's line
 		cout << endl; 
 
 		space--;   // space quantity decrement -1
 		count+=2;   // stars quantity increment +2 
-	}
+	}  // end while <=
 
 	return 0;
 }
