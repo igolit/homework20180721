@@ -1,4 +1,4 @@
-/* Task-2-
+/* Task-3-
 Balanced () and [] and {}. 
 
 CPP source file UTF-8, Linux.
@@ -6,20 +6,33 @@ CPP source file UTF-8, Linux.
 Compiler on Ubuntu 16.04, version C++11 (ISO/IEC 14882:2011). 
 */ 
 
-// 1 step
+// 2 step with stack output to testing
 
 #include <iostream>
 #include <string>
+#include <stack>
 using namespace std;
+
+// to test stack
+void showstack(stack <char> st)
+{
+    stack <char> temp = st;
+
+    cout << "\n stack is ";
+    while (!temp.empty())
+    {
+        cout << '\t' << temp.top();
+        temp.pop();
+    }
+    cout << "<-- begin of text\n";
+}
 
 int main()
 {   
 	// terms: parentheses is round brackets () , brackets is square brackets [], braces is braces {} :)
-	
-	int parentheses = 0, brackets = 0, braces = 0;   // counter for each bracket
-	bool err = false, first_open_parentheses = false /* to all brakets nead 3 bools*/ ;
-	int last_open_parentheses_pos, last_close_parentheses_pos;   // fixe last position
-	int i;
+	bool err_parentheses = false;   // balance error  
+
+	int i;   // symbol position counter from 0 to text length - 1
 
 	//string text ("())");   // string initialization for testing
 	string text;
@@ -41,36 +54,59 @@ int main()
 		// for testing 
 		cout << "\nLength is " << count << "\n\n";
 
-	// balance checking 
-	for (i = 0; i < count; i++) {
-		if (text[i] == '(') {   // open parentheses
-			parentheses++;
-			last_open_parentheses_pos = i + 1; 
-		} 
-			
-		if (text[i] == ')')   // close parentheses
-			parentheses--;
 
-			if (parentheses < 0) {
-				err = true;
-				cout << "Error!!! In position " << i + 1 << ".\n";   // output for testing 
-				last_close_parentheses_pos = i + 1; 
-				break;  // break loop on error
-			}
+	// stack of char declaration 
+	stack <char> brackets_stack;
 
-	}
+        
+		// balance checking
+		for (i = 0; /*second symbol text[1] */ i < count; i++) {
 
-	// Answer 
-	if (!err && parentheses == 0)
-		cout << " () is balanced.";
-	else {
-		cout << " () NOT balanced.";
+			if (text[i] == '(') {   // open parentheses
+				brackets_stack.push(text[i]);
 
-		if (parentheses < 0) 
-			cout << "\nClose parentheses error in position " << last_close_parentheses_pos << ".";
-		else
-			cout << "\nOpen parentheses error in position " << last_open_parentheses_pos << ".";  
-	}
+				// test stack after push()
+				cout << "\nPush: ";
+				showstack(brackets_stack);
+
+			}   // end if == 
+
+			if (!brackets_stack.empty()) {
+				if (text[i] == ')')   // close parentheses
+					if (brackets_stack.top() == '(') {
+						brackets_stack.pop(); 
+
+						// test stack after pop()
+						cout << "\nPop: ";
+						showstack(brackets_stack);
+					}   // end if top is (
+					else {
+						err_parentheses = true;
+						cout << "\nError top not ( !!! Loop break.\n";
+						break;   // break loop on error	
+					}   // end else top is (
+			}   // end if empty
+			else {
+				err_parentheses = true;
+				cout << "\nError stack is empty!!! Loop break.\n";
+				break;   // break loop on error	
+			}   // end else empty
+
+			// test stack in loop, before next iteration
+			cout << "\nIn loop in stack is ";
+			showstack(brackets_stack);
+
+		}   // end for
+
+	// test stack after loop
+	cout << "\nAfter loop in stack is ";
+	showstack(brackets_stack);
+
+	// Answer parentheses
+	if (!err_parentheses && brackets_stack.empty())
+		cout << " () is balanced.\n";
+	else 
+		cout << " () NOT balanced.\n";
 
 	cout << endl << endl; 
 	return 0; 	
