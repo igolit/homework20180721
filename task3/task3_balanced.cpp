@@ -6,7 +6,7 @@ CPP source file UTF-8, Linux.
 Compiler on Ubuntu 16.04, version C++11 (ISO/IEC 14882:2011). 
 */ 
 
-// 2 step with stack output to testing
+// 3 step with stack output to testing
 
 #include <iostream>
 #include <string>
@@ -30,7 +30,8 @@ void showstack(stack <char> st)
 int main()
 {   
 	// terms: parentheses is round brackets () , brackets is square brackets [], braces is braces {} :)
-	bool err_parentheses = false;   // balance error  
+	bool err_parentheses, err_brackets, err_braces, err_close;   // balance errors 
+	err_parentheses = err_brackets = err_braces = err_close = false;   // initialization
 
 	int i;   // symbol position counter from 0 to text length - 1
 
@@ -60,9 +61,9 @@ int main()
 
         
 		// balance checking
-		for (i = 0; /*second symbol text[1] */ i < count; i++) {
+		for (i = 0; i < count; i++) {
 
-			if (text[i] == '(') {   // open parentheses
+			if (text[i] == '(' || text[i] == '[' || text[i] == '{' ) {   // open brackets
 				brackets_stack.push(text[i]);
 
 				// test stack after push()
@@ -85,9 +86,38 @@ int main()
 						cout << "\nError top not ( !!! Loop break.\n";
 						break;   // break loop on error	
 					}   // end else top is (
+
+				if (text[i] == ']')   // close brackets
+					if (brackets_stack.top() == '[') {
+						brackets_stack.pop(); 
+
+						// test stack after pop()
+						cout << "\nPop: ";
+						showstack(brackets_stack);
+					}   // end if top is [
+					else {
+						err_brackets = true;
+						cout << "\nError top not [ !!! Loop break.\n";
+						break;   // break loop on error	
+					}   // end else top is [
+
+				if (text[i] == '}')   // close braces
+					if (brackets_stack.top() == '{') {
+						brackets_stack.pop(); 
+
+						// test stack after pop()
+						cout << "\nPop: ";
+						showstack(brackets_stack);
+					}   // end if top is {
+					else {
+						err_braces = true;
+						cout << "\nError top not { !!! Loop break.\n";
+						break;   // break loop on error	
+					}   // end else top is {
+
 			}   // end if empty
 			else {
-				err_parentheses = true;
+				err_close = true; 
 				cout << "\nError stack is empty!!! Loop break.\n";
 				break;   // break loop on error	
 			}   // end else empty
@@ -102,11 +132,25 @@ int main()
 	cout << "\nAfter loop in stack is ";
 	showstack(brackets_stack);
 
-	// Answer parentheses
-	if (!err_parentheses && brackets_stack.empty())
+	// Answer 
+	if (!err_parentheses && !err_brackets && !err_braces && !err_close && brackets_stack.empty())
 		cout << " () is balanced.\n";
-	else 
-		cout << " () NOT balanced.\n";
+	else {
+		cout << "NOT balanced. "; 
+		if (err_parentheses)
+			cout << " () NOT balanced. err_parentheses \n";
+		else
+		if (err_brackets)
+			cout << " [] NOT balanced. err_brackets \n";
+		else
+		if (err_braces)
+			cout << " {} NOT balanced. err_braces \n";
+		else
+		if (err_close)
+			cout << "Is close bracket error ) or ] or }";
+		else
+			cout << "Is open bracket error ( or [ or {";
+	}
 
 	cout << endl << endl; 
 	return 0; 	
